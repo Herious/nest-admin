@@ -7,7 +7,12 @@ import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const listenPort = 3000;
-  const app = await NestFactory.create(AppModule);
+
+  /**
+   * 创建主程序, 移除默认log模块
+   */
+  const app = await NestFactory.create(AppModule, {logger: false});
+
   /**
    * 配置 Swagger API
    */
@@ -16,6 +21,9 @@ async function bootstrap() {
     .setTitle('Eagle School')
     .setDescription('项目管理接口文档')
     .setVersion('1.0')
+    // .addBearerAuth(
+    //   {type: 'http', scheme: 'bearer', bearerFormat: 'JWT'}, 'jwt'
+    // )
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
