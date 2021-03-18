@@ -3,6 +3,9 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Log4jsLogger } from '@nestx-log4js/core';
 import { Logger } from '@nestjs/common';
+import { ValidationPipe } from './utils/pipe/validation.pipe';
+import { TransformInterceptor } from './utils/interceptor/transform.interceptor';
+
 
 
 async function bootstrap() {
@@ -27,6 +30,12 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
+
+  /**
+   * 配置拦截器
+   */
+  app.useGlobalInterceptors(new TransformInterceptor());
+  app.useGlobalPipes(new ValidationPipe());
 
   /**
    * 使用log4js日志模块替换默认日志

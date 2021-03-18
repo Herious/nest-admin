@@ -13,4 +13,9 @@ export class UserController {
     return await this.UserService.regist(user)
   }
 
+  @Post('login')
+  async login(@Body() user: UserDTO) {
+    return await this.UserService.login(user)
+  }
+
 }

@@ -1,6 +1,6 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction } from 'express';
-import { encript} from 'src/utils/encription'
+import { encript} from 'src/utils/encription';
 
 @Injectable()
 export class HashPasswordMiddleware implements NestMiddleware {
