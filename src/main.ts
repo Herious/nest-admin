@@ -6,7 +6,7 @@ import { Logger } from '@nestjs/common';
 
 
 async function bootstrap() {
-  const listenPort = 3000;
+  const listenPort = 3096;
 
   /**
    * 创建主程序, 移除默认log模块
