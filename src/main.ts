@@ -38,6 +38,11 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   /**
+   * 配置允许跨域
+   */
+  app.enableCors()
+
+  /**
    * 使用log4js日志模块替换默认日志
    */
   app.useLogger(app.get(Log4jsLogger));

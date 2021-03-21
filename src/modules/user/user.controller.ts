@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Get } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { UserDTO } from './user.dto'
@@ -22,6 +22,11 @@ export class UserController {
   })
   async login(@Body() user: UserDTO) {
     return await this.UserService.login(user)
+  }
+
+  @Get()
+  root() {
+    return 'hello word'
   }
 
 }
