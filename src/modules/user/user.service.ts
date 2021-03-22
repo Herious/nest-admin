@@ -44,7 +44,7 @@ export class UserService {
 		let userEntity = await this.UserRepository.findOne({username: user.username});
 		this.logger.debug(userEntity);
 		if (!userEntity) {
-			throw new ApiException(ApiErrorCode.USERNAME_NOT_FOUND, '该用户已未注册', 200);
+			throw new ApiException(ApiErrorCode.USERNAME_NOT_FOUND, '该用户未注册', 200);
 		}
 		if (userEntity.password === encript(user.password)) {
 			let payload = {username: user.username, password: user.password};

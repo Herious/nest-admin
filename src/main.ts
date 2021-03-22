@@ -21,7 +21,7 @@ async function bootstrap() {
    */
   const options = new DocumentBuilder()
     .addBearerAuth()
-    .setTitle('Eagle School')
+    .setTitle('user login')
     .setDescription('项目管理接口文档')
     .setVersion('1.0')
     // .addBearerAuth(
