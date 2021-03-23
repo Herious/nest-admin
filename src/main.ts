@@ -2,12 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Log4jsLogger } from '@nestx-log4js/core';
-import { Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common/services/logger.service';
 import { ValidationPipe } from './utils/pipe/validation.pipe';
 import { TransformInterceptor } from './utils/interceptor/transform.interceptor';
 import { loggerMiddleware } from 'src/middlewares/logger.middleware';
 
 
+const logger = new Logger('Main');
 
 async function bootstrap() {
   const listenPort = 3096;
@@ -56,8 +57,9 @@ async function bootstrap() {
    * 使用log4js日志模块替换默认日志
    */
   app.useLogger(app.get(Log4jsLogger));
-  Logger.log(`you application  is running hear: localhost:${listenPort}`)
+  
   await app.listen(listenPort);
-
+  logger.log(`you application  is running hear: localhost:${listenPort}`);
 }
 bootstrap();
+

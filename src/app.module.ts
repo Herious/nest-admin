@@ -20,7 +20,7 @@ import { UserModule } from 'src/modules/user/user.module';
         charset: 'utf8mb4',
         entities: ['./**/*.entity.js'],
         synchronize: true,
-        logging: true,
+        logging: false,  //关闭sql语句打印
       })
     }),
     Log4jsModule.forRoot(),

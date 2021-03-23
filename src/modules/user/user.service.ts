@@ -42,7 +42,7 @@ export class UserService {
 
 	async login(user: UserDTO) {
 		let userEntity = await this.UserRepository.findOne({username: user.username});
-		this.logger.debug(userEntity);
+		// this.logger.debug(`userEntity.username, userEntity.password`);
 		if (!userEntity) {
 			throw new ApiException(ApiErrorCode.USERNAME_NOT_FOUND, '该用户未注册', 200);
 		}
