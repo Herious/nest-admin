@@ -5,6 +5,7 @@ import { Log4jsLogger } from '@nestx-log4js/core';
 import { Logger } from '@nestjs/common';
 import { ValidationPipe } from './utils/pipe/validation.pipe';
 import { TransformInterceptor } from './utils/interceptor/transform.interceptor';
+import { loggerMiddleware } from 'src/middlewares/logger.middleware';
 
 
 
@@ -35,6 +36,15 @@ async function bootstrap() {
    * 配置拦截器
    */
   app.useGlobalInterceptors(new TransformInterceptor());
+
+  /**
+   * 配置中间件
+  */
+  app.use(loggerMiddleware);
+
+  /**
+   * 配置管道
+   */
   app.useGlobalPipes(new ValidationPipe());
 
   /**

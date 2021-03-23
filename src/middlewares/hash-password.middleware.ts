@@ -11,6 +11,7 @@ export class HashPasswordMiddleware implements NestMiddleware {
    * @param next 
    */
   use(request: Request, response: Response, next: NextFunction) {
+    
     let password = request.body['password'];
     if (password) {
       password = encript(password);
