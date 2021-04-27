@@ -1,7 +1,8 @@
-import { Body, Controller, Post, Get } from '@nestjs/common';
+import { Body, Controller, Post, Get, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { UserDTO } from './user.dto'
+import { UserLoginDTO } from './user.dto'
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('用户模块')
 @Controller('user')
@@ -12,7 +13,7 @@ export class UserController {
   @ApiOperation({
     summary: '用户注册接口'
   })
-  async regist(@Body() user: UserDTO) {
+  async regist(@Body() user: UserLoginDTO) {
     return await this.UserService.regist(user)
   }
 
@@ -20,11 +21,12 @@ export class UserController {
   @ApiOperation({
     summary: '用户登录接口'
   })
-  async login(@Body() user: UserDTO) {
+  async login(@Body() user: UserLoginDTO) {
     return await this.UserService.login(user)
   }
 
   @Get()
+  @UseGuards(AuthGuard('jwt'))
   root() {
     return 'hello word'
   }

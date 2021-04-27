@@ -1,7 +1,7 @@
 import { IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-class UserDTO {
+class UserLoginDTO {
   @ApiProperty()
   @IsNotEmpty({message: '用户名不能为空...'})
   readonly username: string;
@@ -11,4 +11,4 @@ class UserDTO {
   readonly password: string;
 }
 
-export {UserDTO}
+export { UserLoginDTO }

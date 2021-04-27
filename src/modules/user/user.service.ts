@@ -1,6 +1,6 @@
 
 import { Logger } from '@nestjs/common/services/logger.service';
-import { UserDTO } from './user.dto';
+import { UserLoginDTO } from './user.dto';
 import { ApiException } from 'src/utils/exceptions/api.exception';
 import { ApiErrorCode } from 'src/utils/exceptions/api.enumcode';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -9,18 +9,23 @@ import { User } from 'src/entities/user.entity';
 import { Injectable } from '@nestjs/common';
 import { encript} from 'src/utils/encription'
 import { JwtService } from '@nestjs/jwt';
+import { Log4jsLogger } from '@nestx-log4js/core';
 
 
 @Injectable()
 export class UserService {
-	private readonly logger = new Logger('UserService');
+	readonly logger = new Logger('UserService');
 	constructor(
 		@InjectRepository(User)
 		private readonly UserRepository: Repository<User>,
 		private readonly jwtService: JwtService,
-	){}
+	){
+		setTimeout(() => {
+			this.logger.debug('asda');
+		})
+	}
 
-	async regist(user: UserDTO) {
+	async regist(user: UserLoginDTO) {
 		if (!this.checkPhone(user.username)) {
 			this.logger.error('无效的手机号: ' + user.username);
 			throw new ApiException(ApiErrorCode.INVALID_PHONE, '无效的手机号', 200);
@@ -40,7 +45,7 @@ export class UserService {
 		}
 	}
 
-	async login(user: UserDTO) {
+	async login(user: UserLoginDTO) {
 		let userEntity = await this.UserRepository.findOne({username: user.username});
 		// this.logger.debug(`userEntity.username, userEntity.password`);
 		if (!userEntity) {
@@ -55,7 +60,6 @@ export class UserService {
 			throw new ApiException(ApiErrorCode.PASSWORD_ERROR, '账号密码错误', 200);
 		}
 	}
-
 
 	regExpValidation(param: string, reg: RegExp): boolean {
 		return reg.test(param);

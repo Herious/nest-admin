@@ -6,6 +6,9 @@ import { Logger } from '@nestjs/common/services/logger.service';
 import { ValidationPipe } from './utils/pipe/validation.pipe';
 import { TransformInterceptor } from './utils/interceptor/transform.interceptor';
 import { loggerMiddleware } from 'src/middlewares/logger.middleware';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
+import { renderFile } from 'ejs';
 
 
 const logger = new Logger('Main');
@@ -16,7 +19,16 @@ async function bootstrap() {
   /**
    * 创建主程序, 移除默认log模块
    */
-  const app = await NestFactory.create(AppModule, {logger: false});
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {logger: false});
+  app.useStaticAssets(join(__dirname, '../public'), {
+    prefix: '/', 
+    setHeaders: res => {
+      res.set('Cache-Control', 'max-age=2592000')
+    }
+  });
+  app.setBaseViewsDir(join(__dirname, '../views'));
+  app.engine('html', renderFile);
+  app.set('view engine', 'html');
 
   /**
    * 配置 Swagger API
@@ -60,6 +72,7 @@ async function bootstrap() {
   
   await app.listen(listenPort);
   logger.log(`you application  is running hear: localhost:${listenPort}`);
+  logger.log(__dirname);
 }
 bootstrap();
 

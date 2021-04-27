@@ -10,7 +10,6 @@ export class ApiException extends HttpException {
 	readonly code: ApiErrorCode;
 
   constructor(code: ApiErrorCode, message: string, statusCode: number) {
-
     super({code, message}, statusCode);
     this.message = message;
     this.code = code;
